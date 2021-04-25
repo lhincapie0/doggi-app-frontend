@@ -1,1 +1,1 @@
-# doggi-app-frontend
+# Doggi app frontend
