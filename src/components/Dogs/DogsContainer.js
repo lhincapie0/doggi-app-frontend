@@ -10,26 +10,14 @@ import React, {useEffect} from 'react';
 // import CssBaseline from '@material-ui/core/CssBaseline';
 // import Grid from '@material-ui/core/Grid';
 
-// import Toolbar from '@material-ui/core/Toolbar';
-import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Typography, Box, CircularProgress} from '@material-ui/core';
+import {
+    Box,
+    CircularProgress,
+    Container,
+    Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
-import {fetchDogBreeds} from "../../actions";
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import DogCard from "./DogCard";
+import AddDogDialog from "./AddDogDialog";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -63,20 +51,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export default function DogsContainer(props) {
     const classes = useStyles();
 
     const { dogsData } = props;
+    const dogs = dogsData.get('dogs');
 
     useEffect(() => {
         const { fetchDogBreeds } = props;
         fetchDogBreeds();
     }, [])
 
-    console.log('HOLAAAA');
-    console.log('loading:', dogsData.get('rowsLoading'));
+
+    const dogCards = dogs.map((dog, index) => <DogCard key={dog.get('name')} index={index} dog={dog} />);
 
     return (
         <div>
@@ -84,7 +71,13 @@ export default function DogsContainer(props) {
             <Box>
                 <CircularProgress size={500} />
             </Box>}
-            <p>{'here its going to be dogs information'}</p>
+            <Container className={classes.cardGrid} maxWidth="md">
+                {/* End hero unit */}
+                <Grid container spacing={4}>
+                    {dogCards}
+                </Grid>
+            </Container>
+            <AddDogDialog onClose={props.onCloseAddDialog} open={props.addDialogOpen} createDog={props.handleCreateDogBreed} />
         </div>
     );
 }

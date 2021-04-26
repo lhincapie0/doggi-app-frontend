@@ -10,8 +10,5 @@ export const config = {
     defaultHeaders: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Origin' : 'https://doggi-app-backend.herokuapp.com',
-        // 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-        // 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
     },
 }

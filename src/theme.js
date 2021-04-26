@@ -10,6 +10,7 @@ export const colors = {
   secondary: "#F38F20",
   greyInputBorder: "#E4E4E4",
   greyFormLabel: "#C4C4C4",
+  grey800: '#757575',
   purpleButtonHover: "#D5CADF",
   greyDisabledIcon: "#a0a0a0",
 
@@ -55,49 +56,41 @@ const themeOptions = {
         },
       },
     },
-    //   MuiInput: {
-    //     input: {
-    //       color: colors.grey850,
-    //       fontSize: fontSize.large,
-    //       '&.center-number-input': {
-    //         '&::-webkit-outer-spin-button': {
-    //           opacity: 1,
-    //         },
-    //         '&::-webkit-inner-spin-button': {
-    //           opacity: 1,
-    //         },
-    //         textAlign: 'center',
-    //       },
-    //     },
-    //     underline: {
-    //       '&:before': {
-    //         borderBottom: `1px solid ${colors.greyInputBorder} !important`,
-    //       },
-    //       '&.WithIcon': {
-    //         '&:before': {
-    //           marginLeft: '60px',
-    //         },
-    //         '&:after': {
-    //           marginLeft: '60px',
-    //         },
-    //       },
-    //       '&.Disabled': {
-    //         '&:before': {
-    //           borderBottom: `1px dotted ${colors.greyInputBorder} !important`,
-    //         },
-    //         '&:after': {
-    //           borderBottom: `1px dotted ${colors.greyInputBorder} !important`,
-    //         },
-    //       },
-    //     },
-    //     root: {
-    //       margin: 0,
-    //     },
-    //     inputMultiline: {
-    //       lineHeight: 1.3875,
-    //       overflowY: 'auto',
-    //     },
-    //   },
+      MuiInput: {
+        input: {
+          color: colors.grey800,
+          fontSize: '16px',
+          '&.center-number-input': {
+            '&::-webkit-outer-spin-button': {
+              opacity: 1,
+            },
+            '&::-webkit-inner-spin-button': {
+              opacity: 1,
+            },
+            textAlign: 'center',
+          },
+        },
+        underline: {
+          '&:before': {
+            borderBottom: `1px solid ${colors.greyInputBorder} !important`,
+          },
+          '&.WithIcon': {
+            '&:before': {
+              marginLeft: '60px',
+            },
+            '&:after': {
+              marginLeft: '60px',
+            },
+          },
+        },
+        root: {
+          margin: 0,
+        },
+        inputMultiline: {
+          lineHeight: 1.3875,
+          overflowY: 'auto',
+        },
+      },
     //   MuiFormLabel: {
     //     root: {
     //       fontSize: fontSize.large,

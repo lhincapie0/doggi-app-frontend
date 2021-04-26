@@ -7,10 +7,12 @@ const initialState = fromJS({
 })
 
 export default function dogsData(state = initialState, action) {
-    // switch action type...
     switch (action.type) {
         case ActionType.TOGGLE_DOGS_DATA_LOADING: {
          return state.set('rowsLoading', !state.get('rowsLoading'));
+        }
+        case ActionType.RECEIVE_DOGS_DATA: {
+            return state.set('dogs', fromJS(action.dogs))
         }
         default:
             return state;

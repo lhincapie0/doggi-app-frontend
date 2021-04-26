@@ -1,15 +1,13 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { DogsC}
 import DogsContainer from "./DogsContainer";
-import { fetchDogBreeds } from "../../actions";
+import { fetchDogBreeds, handleCreateDogBreed} from "../../actions";
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+    console.log('props', props);
     return {
-        dogsData: state.dogsData,
-        // meData: state.userSession.get('me'),
-        // shipmentBoxes: state.shipmentBoxes.get('rows'),
-        // packingProcessData: state.packingProcessData,
+        ... { dogsData: state.dogsData},
+        ...props,
     };
 }
 
@@ -17,6 +15,7 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
             fetchDogBreeds,
+            handleCreateDogBreed,
         },
         dispatch);
 }

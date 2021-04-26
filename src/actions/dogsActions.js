@@ -5,9 +5,16 @@
 import ActionType from "./ActionTypes";
 import dogsApi from "../client/DogsApi";
 
-export function toggleDogsLoading() {
+function toggleDogsLoading() {
     return {
         type: ActionType.TOGGLE_DOGS_DATA_LOADING,
+    };
+}
+
+function receiveDogsData(dogs) {
+    return {
+        type: ActionType.RECEIVE_DOGS_DATA,
+        dogs,
     };
 }
 export function fetchDogBreeds() {
@@ -15,30 +22,17 @@ export function fetchDogBreeds() {
         dispatch(toggleDogsLoading());
         try {
             const dogsResponse = await dogsApi.getDogBreeds();
-            console.log('DOGS DATAAAAAA');
-            console.log('dogs data', dogsResponse)
+            dispatch(receiveDogsData(dogsResponse.data));
         } catch(error) {
             console.log('fetch failed');
             console.log(error);
+            // TODO handle error
         }
         dispatch(toggleDogsLoading());
 
     }
-//     return async (dispatch) => {
-//     try {
-//       dispatch(togglePackingProcessLoading());
-//
-//       const packingOrderResponse = await packingApi.postFinishPacking(packingOrderId);
-//       dispatch(receivePackingProcessPackingOrder(packingOrderResponse.data));
-//
-//       const labelAttachmentsCount = countLabelAttachments(packingBoxes.toJS());
-//
-//       if (packingBoxes.size !== labelAttachmentsCount)
-//         dispatch(toggleWaitingForLabels(true));
-//     } catch (error) {
-//       const errorLabel = i18nMessage('global.errorMessage');
-//       dispatch(receivePackingProcessErrorMessage(errorLabel));
-//     }
-//     dispatch(togglePackingProcessLoading());
-//   };
+}
+
+export function handleCreateDogBreed(dogBreedData) {
+    console.log('should create new dog');
 }

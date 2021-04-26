@@ -1,10 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
 import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-// import Card from '@material-ui/core/Card';
-// import CardActions from '@material-ui/core/CardActions';
-// import CardContent from '@material-ui/core/CardContent';
-// import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -12,36 +7,20 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Authors from "./Authors";
 import TopBar from "./TopBar";
-import { Fab } from "@material-ui/core";
 import messages from "../constants/messages";
 import DogsContainer from "./Dogs/connected";
 
 const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
+  mainContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
-  heroButtons: {
+  mainContentButton: {
     marginTop: theme.spacing(4),
   },
   dogsContainer: {
-    paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
     backgroundColor: theme.palette.background.paper,
-    flexGrow: 1,
-  },
-  card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-  },
-  cardContent: {
     flexGrow: 1,
   },
   footer: {
@@ -50,17 +29,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export default function MainContainer() {
   const classes = useStyles();
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
 
   return (
     <React.Fragment>
       <CssBaseline />
       <TopBar />
       <main>
-        <div className={classes.heroContent}>
+        <div className={classes.mainContent}>
           <Container maxWidth="sm">
             <Typography
               component="h1"
@@ -79,12 +57,12 @@ export default function MainContainer() {
             >
               {messages.appDescription}
             </Typography>
-            <div className={classes.heroButtons}>
+            <div className={classes.mainContentButton}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary">
+                  <Button variant="outlined" color="primary" onClick={() => setAddDialogOpen(true)}>
                       {messages.addDogButton}
                   </Button>
                 </Grid>
@@ -99,14 +77,8 @@ export default function MainContainer() {
           className={classes.dogsContainer}
           maxWidth={"xl"}
         >
-          <DogsContainer />
+          <DogsContainer addDialogOpen={addDialogOpen} onCloseAddDialog={() => setAddDialogOpen(false)}/>
         </Grid>
-        {/*<Grid className={classes.dogsContainer}           justify="rigth"*/}
-        {/*      alignItems="right" maxWidth={"xl"}>*/}
-        {/*  <Fab color="primary" aria-label="add">*/}
-        {/*    <AddIcon />*/}
-        {/*  </Fab>*/}
-        {/*</Grid>*/}
       </main>
       <footer className={classes.footer}>
         <Authors />
