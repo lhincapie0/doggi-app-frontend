@@ -23,7 +23,7 @@ import {
 import ImmutablePropTypes from "react-immutable-proptypes";
 import DeleteIcon from "@material-ui/icons/Cancel";
 
-function AddDogDialog({ createDog, open, onClose, countriesData, dogsData }) {
+function AddDogDialog({ createDogBreed, open, onClose, countriesData, dogsData }) {
   const [isValid, setIsValid] = useState(false);
   const [country, setCountry] = useState(1);
   const [selectedColors, setSelectedColors] = useState([]);
@@ -89,10 +89,7 @@ function AddDogDialog({ createDog, open, onClose, countriesData, dogsData }) {
   });
 
   function handleOnCreate() {
-    //
-    // TODO create service to map this data
-    const dogBreedData = {
-      // TODO convert dog measures to int
+     const dogBreedData = {
       ...dogData,
       ...{
         idCountry: country,
@@ -101,9 +98,9 @@ function AddDogDialog({ createDog, open, onClose, countriesData, dogsData }) {
         dogBreedNatures: selectedNatures.map((nature) => nature.id),
       },
     };
-    console.log(dogBreedData);
 
-    // createDog(_dogData);
+    createDogBreed(dogBreedData);
+    onClose();
   }
 
   const colorsChips = selectedColors.map((color, index) => (
@@ -269,7 +266,7 @@ function AddDogDialog({ createDog, open, onClose, countriesData, dogsData }) {
 }
 
 AddDogDialog.propTypes = {
-  createDog: PropTypes.func.isRequired,
+  createDogBreed: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   countriesData: ImmutablePropTypes.map.isRequired,
