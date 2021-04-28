@@ -18,6 +18,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import DogCard from "./DogCard";
 import AddDogDialog from "./AddDogDialog";
+import {fetchCountries} from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -58,8 +59,9 @@ export default function DogsContainer(props) {
     const dogs = dogsData.get('dogs');
 
     useEffect(() => {
-        const { fetchDogBreeds } = props;
+        const { fetchDogBreeds, fetchCountries } = props;
         fetchDogBreeds();
+        fetchCountries();
     }, [])
 
 
@@ -77,7 +79,13 @@ export default function DogsContainer(props) {
                     {dogCards}
                 </Grid>
             </Container>
-            <AddDogDialog onClose={props.onCloseAddDialog} open={props.addDialogOpen} createDog={props.handleCreateDogBreed} />
+            <AddDogDialog
+                countriesData={props.countriesData}
+                onClose={props.onCloseAddDialog}
+                open={props.addDialogOpen}
+                dogsData={props.dogsData}
+                createDog={props.handleCreateDogBreed}
+            />
         </div>
     );
 }

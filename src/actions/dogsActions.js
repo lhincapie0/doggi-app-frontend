@@ -11,10 +11,12 @@ function toggleDogsLoading() {
     };
 }
 
-function receiveDogsData(dogs) {
+function receiveDogsData(dogs, colors, natures) {
     return {
         type: ActionType.RECEIVE_DOGS_DATA,
         dogs,
+        colors,
+        natures
     };
 }
 export function fetchDogBreeds() {
@@ -22,7 +24,9 @@ export function fetchDogBreeds() {
         dispatch(toggleDogsLoading());
         try {
             const dogsResponse = await dogsApi.getDogBreeds();
-            dispatch(receiveDogsData(dogsResponse.data));
+            const colorsResponse = await dogsApi.getDogColors();
+            const naturesResponse = await dogsApi.getDogNatures();
+            dispatch(receiveDogsData(dogsResponse.data, colorsResponse.data, naturesResponse.data));
         } catch(error) {
             console.log('fetch failed');
             console.log(error);

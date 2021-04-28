@@ -7,6 +7,8 @@ export const colors = {
   primaryLighten30: "#A060DD",
   primaryDark: "#431973",
 
+  grey300: '#E0E0E0',
+
   secondary: "#F38F20",
   greyInputBorder: "#E4E4E4",
   greyFormLabel: "#C4C4C4",
@@ -91,6 +93,25 @@ const themeOptions = {
           overflowY: 'auto',
         },
       },
+    MuiChip: {
+      root: {
+        fontSize: '14px',
+        backgroundColor: colors.grey300,
+        margin: '0 5px 15px 0',
+        '&:focus': {
+          backgroundColor: `${colors.greyInputBorder} !important`,
+        },
+      },
+      label: {
+        lineHeight: '16px',
+        color: colors.primary,
+        fontSize: '14px',
+      },
+      deleteIcon: {
+        width: '18px',
+        height: '18px',
+      },
+    },
     //   MuiFormLabel: {
     //     root: {
     //       fontSize: fontSize.large,
