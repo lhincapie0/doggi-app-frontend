@@ -27,3 +27,10 @@ export const DOG_BREED_FIELDS = {
   height: "Height",
   lifeExpectancy: "Life Expectancy",
 };
+
+export const DEFAULT_DOG_BREED_STATE = {
+  name: "",
+  weight: 0,
+  lifeExpectancy: 0,
+  height: 0,
+}

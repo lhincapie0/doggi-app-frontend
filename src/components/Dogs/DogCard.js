@@ -8,7 +8,7 @@ import {
     Card,
     CardActions,
     CardContent,
-    CardHeader, Dialog, DialogActions, DialogContent, DialogTitle,
+    CardHeader,
     Grid,
     Typography
 } from "@material-ui/core";
@@ -41,13 +41,9 @@ function DogCard({ dog, index}) {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
-    function openDetails() {
-        setOpen(true);
-    }
-
     const backgroundColor = index % 2 === 0 ? colors.primaryLighten30 : colors.primary;
     return (
-        <Grid item key={dog.get('name')} xs={12} sm={6} md={4}>
+        <Grid item key={`${dog.get('name')}-${dog.get('id')}`} xs={12} sm={6} md={4}>
             <Card className={classes.card} data-testid={dog.get('name')}>
                 <CardHeader
                     avatar={

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 // TODO MAKE FUNCTION DYNAMIC FOR COLORS AND NATURES
 // TODO SEPARATE COMPONENTS IN DIFFERENT FILES
+import usePrevious from "../../utils/UsePrevious";
 import {
   Dialog,
   DialogActions,
@@ -15,26 +16,43 @@ import {
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import messages from "../../constants/messages";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ADD_DOG_VALIDATION_RULES,
   DOG_BREED_FIELDS,
+  DEFAULT_DOG_BREED_STATE,
 } from "../../constants/dogBreed";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import DeleteIcon from "@material-ui/icons/Cancel";
 
-function AddDogDialog({ createDogBreed, open, onClose, countriesData, dogsData }) {
+function AddDogDialog({
+  createDogBreed,
+  open,
+  onClose,
+  countriesData,
+  dogsData,
+  breed,
+}) {
   const [isValid, setIsValid] = useState(false);
   const [country, setCountry] = useState(1);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedNatures, setSelectedNatures] = useState([]);
+  const [dogData, setDogData] = useState(DEFAULT_DOG_BREED_STATE);
+  const prevOpen = usePrevious(open);
 
-  const [dogData, setDogData] = useState({
-    name: "",
-    weight: 0,
-    lifeExpectancy: 0,
-    height: 0,
-  });
+  useEffect(() => {
+    if (open && !prevOpen && !breed) {
+      resetState();
+    }
+  }, [open]);
+
+  function resetState() {
+    setCountry(1);
+    setIsValid(false);
+    setSelectedColors([]);
+    setSelectedColors([]);
+    setDogData(DEFAULT_DOG_BREED_STATE);
+  }
 
   function isValidForm(newState) {
     const validForm = ADD_DOG_VALIDATION_RULES.reduce((isValid, rule) => {
@@ -89,7 +107,7 @@ function AddDogDialog({ createDogBreed, open, onClose, countriesData, dogsData }
   });
 
   function handleOnCreate() {
-     const dogBreedData = {
+    const dogBreedData = {
       ...dogData,
       ...{
         idCountry: country,
@@ -205,7 +223,6 @@ function AddDogDialog({ createDogBreed, open, onClose, countriesData, dogsData }
         </Box>
         <Select
           labelId="type-select-placeholder"
-          // className={`e2e-integrator-client-${INTEGRATOR_CLIENT_MODEL_NAMED_PARAMETERS.type}`}
           fullWidth
           value={country}
           onChange={onCountrySelected}
@@ -271,6 +288,7 @@ AddDogDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   countriesData: ImmutablePropTypes.map.isRequired,
   dogsData: ImmutablePropTypes.map.isRequired,
+  breed: ImmutablePropTypes.map,
 };
 
 export default AddDogDialog;

@@ -59,7 +59,7 @@ export default function DogsContainer({
   }, []);
 
   const dogCards = dogs.map((dog, index) => (
-    <DogCard key={dog.get("name")} index={index} dog={dog} />
+    <DogCard key={`${dog.get("name")}-${dog.get('id')}-card`} index={index} dog={dog} />
   ));
 
   return (
