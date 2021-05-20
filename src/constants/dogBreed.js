@@ -21,6 +21,16 @@ export const ADD_DOG_VALIDATION_RULES = [
   },
 ];
 
+export const DOG_BREED_FIELDS_KEYS = {
+  name: 'name',
+  country: 'country',
+  lifeExpectancy: 'lifeExpectancy',
+  dogBreedColors: 'dogBreedColors',
+  dogBreedNatures: 'dogBreedNatures',
+  height: 'height',
+  weight: 'weight',
+}
+
 export const DOG_BREED_FIELDS = {
   name: "Name",
   weight: "Weight",

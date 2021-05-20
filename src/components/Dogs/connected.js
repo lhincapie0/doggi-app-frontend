@@ -5,7 +5,7 @@ import { fetchDogBreeds, createDogBreed, fetchCountries } from "../../actions";
 
 function mapStateToProps(state, props) {
     return {
-        ... { dogsData: state.dogsData, countriesData: state.countriesData},
+        ... { dogsData: state.dogsData, countriesData: state.countriesData },
         ...props,
     };
 }

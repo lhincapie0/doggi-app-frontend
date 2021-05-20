@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 // TODO MAKE FUNCTION DYNAMIC FOR COLORS AND NATURES
 // TODO SEPARATE COMPONENTS IN DIFFERENT FILES
 import usePrevious from "../../utils/UsePrevious";
+import validateFields from "../../utils/validator";
 import {
   Dialog,
   DialogActions,
@@ -21,6 +22,7 @@ import {
   ADD_DOG_VALIDATION_RULES,
   DOG_BREED_FIELDS,
   DEFAULT_DOG_BREED_STATE,
+  DOG_BREED_FIELDS_KEYS,
 } from "../../constants/dogBreed";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import DeleteIcon from "@material-ui/icons/Cancel";
@@ -38,6 +40,7 @@ function AddDogDialog({
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedNatures, setSelectedNatures] = useState([]);
   const [dogData, setDogData] = useState(DEFAULT_DOG_BREED_STATE);
+  const [validationErrors, setValidationErrors] = useState({});
   const prevOpen = usePrevious(open);
 
   useEffect(() => {
@@ -51,6 +54,7 @@ function AddDogDialog({
     setIsValid(false);
     setSelectedColors([]);
     setSelectedColors([]);
+    setValidationErrors({});
     setDogData(DEFAULT_DOG_BREED_STATE);
   }
 
@@ -68,6 +72,11 @@ function AddDogDialog({
   }
 
   function onCountrySelected(event) {
+    const error = validateFields(
+      DOG_BREED_FIELDS_KEYS.country,
+      event.target.value
+    );
+    setValidationErrors({ ...validationErrors, ...{ country: error } });
     setCountry(event.target.value);
   }
   const countriesOptions = countriesData.get("countries")?.map((country) => (
@@ -135,6 +144,54 @@ function AddDogDialog({
     />
   ));
 
+  function onNameChange(event) {
+    const value = event.target.value;
+    const newState = { ...dogData, ...{ name: value } };
+    const error = validateFields(
+      DOG_BREED_FIELDS_KEYS.name,
+      event.target.value
+    );
+    setValidationErrors({ ...validationErrors, ...{ name: error } });
+    setDogData(newState);
+    isValidForm(newState);
+  }
+
+  function onWeightChange(event) {
+    const value = event.target.value;
+    const newState = { ...dogData, ...{ weight: value } };
+    setDogData(newState);
+    const error = validateFields(
+      DOG_BREED_FIELDS_KEYS.weight,
+      event.target.value
+    );
+    setValidationErrors({ ...validationErrors, ...{ weight: error } });
+    isValidForm(newState);
+  }
+
+  function onHeightChange(event) {
+    const value = event.target.value;
+    const newState = { ...dogData, ...{ height: value } };
+    const error = validateFields(
+        DOG_BREED_FIELDS_KEYS.height,
+        event.target.value
+    );
+    setValidationErrors({ ...validationErrors, ...{ height: error } });
+    setDogData(newState);
+    isValidForm(newState);
+  }
+
+  function onLifeExpectancyChange(event) {
+    const value = event.target.value;
+    const newState = { ...dogData, ...{ lifeExpectancy: value } };
+    const error = validateFields(
+        DOG_BREED_FIELDS_KEYS.lifeExpectancy,
+        event.target.value
+    );
+    setValidationErrors({ ...validationErrors, ...{ lifeExpectancy: error } });
+    setDogData(newState);
+    isValidForm(newState);
+  }
+
   const naturesChips = selectedNatures.map((nature, index) => (
     <Chip
       label={nature.name}
@@ -160,12 +217,9 @@ function AddDogDialog({
             type={"text"}
             label={DOG_BREED_FIELDS.name}
             value={dogData.name}
-            onChange={(event) => {
-              const value = event.target.value;
-              const newState = { ...dogData, ...{ name: value } };
-              setDogData(newState);
-              isValidForm(newState);
-            }}
+            onChange={(event) => onNameChange(event)}
+            errors={validationErrors[DOG_BREED_FIELDS_KEYS.name]}
+            helperText={validationErrors[DOG_BREED_FIELDS_KEYS.name]}
             data-testid={"e2e-add-dialog-name-field"}
           />
         </Box>
@@ -176,13 +230,10 @@ function AddDogDialog({
             type={"number"}
             label={DOG_BREED_FIELDS.weight}
             value={dogData.weight}
-            onChange={(event) => {
-              const value = event.target.value;
-              const newState = { ...dogData, ...{ weight: value } };
-              setDogData(newState);
-              isValidForm(newState);
-            }}
+            onChange={(event) => onWeightChange(event)}
             data-testid={"e2e-add-dialog-weight-field"}
+            errors={validationErrors[DOG_BREED_FIELDS_KEYS.weight]}
+            helperText={validationErrors[DOG_BREED_FIELDS_KEYS.weight]}
           />
         </Box>
         <Box style={{ marginBottom: "30px" }}>
@@ -192,12 +243,9 @@ function AddDogDialog({
             type={"number"}
             label={DOG_BREED_FIELDS.height}
             value={dogData.height}
-            onChange={(event) => {
-              const value = event.target.value;
-              const newState = { ...dogData, ...{ height: value } };
-              setDogData(newState);
-              isValidForm(newState);
-            }}
+            onChange={(event) => onHeightChange(event)}
+            errors={validationErrors[DOG_BREED_FIELDS_KEYS.height]}
+            helperText={validationErrors[DOG_BREED_FIELDS_KEYS.height]}
             data-testid={"e2e-add-dialog-height-field"}
           />
         </Box>
@@ -212,12 +260,9 @@ function AddDogDialog({
               min: 1,
               max: 100,
             }}
-            onChange={(event) => {
-              const value = event.target.value;
-              const newState = { ...dogData, ...{ lifeExpectancy: value } };
-              setDogData(newState);
-              isValidForm(newState);
-            }}
+            errors={validationErrors[DOG_BREED_FIELDS_KEYS.lifeExpectancy]}
+            helperText={validationErrors[DOG_BREED_FIELDS_KEYS.lifeExpectancy]}
+            onChange={(event) => onLifeExpectancyChange(event)}
             data-testid={"e2e-add-dialog-life-expectancy-field"}
           />
         </Box>

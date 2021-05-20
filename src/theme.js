@@ -112,6 +112,12 @@ const themeOptions = {
         height: '18px',
       },
     },
+    MuiFormHelperText: {
+      root: {
+        color: colors.primary,
+        fontSize: '12px',
+      }
+    }
     //   MuiFormLabel: {
     //     root: {
     //       fontSize: fontSize.large,
