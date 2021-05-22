@@ -5,40 +5,70 @@
 import ActionType from "./ActionTypes";
 import dogsApi from "../client/DogsApi";
 
-export function toggleDogsLoading() {
-    return {
-        type: ActionType.TOGGLE_DOGS_DATA_LOADING,
-    };
+function toggleDogsLoading() {
+  return {
+    type: ActionType.TOGGLE_DOGS_DATA_LOADING,
+  };
 }
-export function fetchDogBreeds() {
-    return async (dispatch) => {
-        dispatch(toggleDogsLoading());
-        try {
-            const dogsResponse = await dogsApi.getDogBreeds();
-            console.log('DOGS DATAAAAAA');
-            console.log('dogs data', dogsResponse)
-        } catch(error) {
-            console.log('fetch failed');
-            console.log(error);
-        }
-        dispatch(toggleDogsLoading());
 
+function receiveDogsData(dogs, colors, natures) {
+  return {
+    type: ActionType.RECEIVE_DOGS_DATA,
+    dogs,
+    colors,
+    natures,
+  };
+}
+export function fetchDogBreeds(reload = true) {
+  return async (dispatch) => {
+    if (reload) dispatch(toggleDogsLoading());
+    try {
+      const dogsResponse = await dogsApi.getDogBreeds();
+      const colorsResponse = await dogsApi.getDogColors();
+      const naturesResponse = await dogsApi.getDogNatures();
+      dispatch(
+        receiveDogsData(
+          dogsResponse.data,
+          colorsResponse.data,
+          naturesResponse.data
+        )
+      );
+    } catch (error) {
+      console.log("fetch failed");
+      console.log(error);
+      // TODO handle error
     }
-//     return async (dispatch) => {
-//     try {
-//       dispatch(togglePackingProcessLoading());
-//
-//       const packingOrderResponse = await packingApi.postFinishPacking(packingOrderId);
-//       dispatch(receivePackingProcessPackingOrder(packingOrderResponse.data));
-//
-//       const labelAttachmentsCount = countLabelAttachments(packingBoxes.toJS());
-//
-//       if (packingBoxes.size !== labelAttachmentsCount)
-//         dispatch(toggleWaitingForLabels(true));
-//     } catch (error) {
-//       const errorLabel = i18nMessage('global.errorMessage');
-//       dispatch(receivePackingProcessErrorMessage(errorLabel));
-//     }
-//     dispatch(togglePackingProcessLoading());
-//   };
+    dispatch(toggleDogsLoading());
+  };
+}
+
+export function createDogBreed(dogBreedData) {
+  return async (dispatch) => {
+    dispatch(toggleDogsLoading());
+
+    try {
+      const dogsResponse = await dogsApi.postDogBreed(dogBreedData);
+      console.log(dogsResponse);
+      dispatch(fetchDogBreeds(false));
+    } catch (error) {
+      console.log("error", error);
+      dispatch(toggleDogsLoading());
+    }
+  };
+}
+
+
+export function editDogBreed(dogBreedData, breedId) {
+  return async (dispatch) => {
+    dispatch(toggleDogsLoading());
+
+    try {
+      const dogResponse = await dogsApi.putDogBreed(dogBreedData, breedId)
+      console.log(dogResponse);
+      dispatch(fetchDogBreeds(false));
+    } catch(error) {
+      console.log("error", error);
+      dispatch(toggleDogsLoading());
+    }
+  }
 }

@@ -1,90 +1,116 @@
-
-import React, {useEffect} from 'react';
-// import AppBar from '@material-ui/core/AppBar';
-// import Button from '@material-ui/core/Button';
-// import CameraIcon from '@material-ui/icons/PhotoCamera';
-// import Card from '@material-ui/core/Card';
-// import CardActions from '@material-ui/core/CardActions';
-// import CardContent from '@material-ui/core/CardContent';
-// import CardMedia from '@material-ui/core/CardMedia';
-// import CssBaseline from '@material-ui/core/CssBaseline';
-// import Grid from '@material-ui/core/Grid';
-
-// import Toolbar from '@material-ui/core/Toolbar';
-import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Typography, Box, CircularProgress} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
-import {fetchDogBreeds} from "../../actions";
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { Box, CircularProgress, Container, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import DogCard from "./DogCard";
+import AddDogDialog from "./AddDogDialog";
+import ImmutablePropTypes from "react-immutable-proptypes";
 
 const useStyles = makeStyles((theme) => ({
-    icon: {
-        marginRight: theme.spacing(2),
-    },
-    heroContent: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-        marginTop: theme.spacing(4),
-    },
-    cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
-    },
-    card: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    cardMedia: {
-        paddingTop: '56.25%', // 16:9
-    },
-    cardContent: {
-        flexGrow: 1,
-    },
-    footer: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(6),
-    },
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+export default function DogsContainer({
+  dogsData,
+  addDialogOpen,
+  onCloseAddDialog,
+  fetchDogBreeds,
+  fetchCountries,
+  countriesData,
+  openDialog,
+  createDogBreed,
+  editDogBreed,
+}) {
+  const classes = useStyles();
+  const [currentDogBreedDetails, setCurrentDogBreedDetails] = useState(null);
+  const dogs = dogsData.get("dogs");
 
-export default function DogsContainer(props) {
-    const classes = useStyles();
+  function openDogDetails(dog) {
+    setCurrentDogBreedDetails(dog);
+    openDialog();
+  }
 
-    const { dogsData } = props;
+  useEffect(() => {
+    // const { fetchDogBreeds, fetchCountries } = props;
+    fetchDogBreeds();
+    fetchCountries();
+  }, []);
 
-    useEffect(() => {
-        const { fetchDogBreeds } = props;
-        fetchDogBreeds();
-    }, [])
+  const dogCards = dogs.map((dog, index) => (
+    <DogCard
+      key={`${dog.get("name")}-${dog.get("id")}-card`}
+      index={index}
+      dog={dog}
+      openDetails={openDogDetails}
+    />
+  ));
 
-    console.log('HOLAAAA');
-    console.log('loading:', dogsData.get('rowsLoading'));
+  function onClose() {
+    setCurrentDogBreedDetails(null);
+    onCloseAddDialog();
+  }
 
-    return (
-        <div>
-            {dogsData.get('rowsLoading') &&
-            <Box>
-                <CircularProgress size={500} />
-            </Box>}
-            <p>{'here its going to be dogs information'}</p>
-        </div>
-    );
+  return (
+    <div>
+      {dogsData.get("rowsLoading") && (
+        <Box>
+          <CircularProgress size={500} />
+        </Box>
+      )}
+      <Container className={classes.cardGrid} maxWidth="md">
+        <Grid container spacing={4}>
+          {dogCards}
+        </Grid>
+      </Container>
+      <AddDogDialog
+        countriesData={countriesData}
+        onClose={onClose}
+        open={addDialogOpen}
+        dogsData={dogsData}
+        createDogBreed={createDogBreed}
+        breed={currentDogBreedDetails}
+        editDogBreed={editDogBreed}
+      />
+    </div>
+  );
 }
+
+DogsContainer.propTypes = {
+  dogsData: ImmutablePropTypes.map.isRequired,
+  openDialog: PropTypes.func.isRequired,
+  addDialogOpen: PropTypes.bool.isRequired,
+  onCloseAddDialog: PropTypes.func.isRequired,
+  fetchDogBreeds: PropTypes.func.isRequired,
+  fetchCountries: PropTypes.func.isRequired,
+  countriesData: ImmutablePropTypes.map.isRequired,
+  createDogBreed: PropTypes.func.isRequired,
+  editDogBreed: PropTypes.func.isRequired,
+};

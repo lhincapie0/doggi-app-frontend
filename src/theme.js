@@ -7,9 +7,12 @@ export const colors = {
   primaryLighten30: "#A060DD",
   primaryDark: "#431973",
 
+  grey300: '#E0E0E0',
+
   secondary: "#F38F20",
   greyInputBorder: "#E4E4E4",
   greyFormLabel: "#C4C4C4",
+  grey800: '#757575',
   purpleButtonHover: "#D5CADF",
   greyDisabledIcon: "#a0a0a0",
 
@@ -55,49 +58,66 @@ const themeOptions = {
         },
       },
     },
-    //   MuiInput: {
-    //     input: {
-    //       color: colors.grey850,
-    //       fontSize: fontSize.large,
-    //       '&.center-number-input': {
-    //         '&::-webkit-outer-spin-button': {
-    //           opacity: 1,
-    //         },
-    //         '&::-webkit-inner-spin-button': {
-    //           opacity: 1,
-    //         },
-    //         textAlign: 'center',
-    //       },
-    //     },
-    //     underline: {
-    //       '&:before': {
-    //         borderBottom: `1px solid ${colors.greyInputBorder} !important`,
-    //       },
-    //       '&.WithIcon': {
-    //         '&:before': {
-    //           marginLeft: '60px',
-    //         },
-    //         '&:after': {
-    //           marginLeft: '60px',
-    //         },
-    //       },
-    //       '&.Disabled': {
-    //         '&:before': {
-    //           borderBottom: `1px dotted ${colors.greyInputBorder} !important`,
-    //         },
-    //         '&:after': {
-    //           borderBottom: `1px dotted ${colors.greyInputBorder} !important`,
-    //         },
-    //       },
-    //     },
-    //     root: {
-    //       margin: 0,
-    //     },
-    //     inputMultiline: {
-    //       lineHeight: 1.3875,
-    //       overflowY: 'auto',
-    //     },
-    //   },
+      MuiInput: {
+        input: {
+          color: colors.grey800,
+          fontSize: '16px',
+          '&.center-number-input': {
+            '&::-webkit-outer-spin-button': {
+              opacity: 1,
+            },
+            '&::-webkit-inner-spin-button': {
+              opacity: 1,
+            },
+            textAlign: 'center',
+          },
+        },
+        underline: {
+          '&:before': {
+            borderBottom: `1px solid ${colors.greyInputBorder} !important`,
+          },
+          '&.WithIcon': {
+            '&:before': {
+              marginLeft: '60px',
+            },
+            '&:after': {
+              marginLeft: '60px',
+            },
+          },
+        },
+        root: {
+          margin: 0,
+        },
+        inputMultiline: {
+          lineHeight: 1.3875,
+          overflowY: 'auto',
+        },
+      },
+    MuiChip: {
+      root: {
+        fontSize: '14px',
+        backgroundColor: colors.grey300,
+        margin: '0 5px 15px 0',
+        '&:focus': {
+          backgroundColor: `${colors.greyInputBorder} !important`,
+        },
+      },
+      label: {
+        lineHeight: '16px',
+        color: colors.primary,
+        fontSize: '14px',
+      },
+      deleteIcon: {
+        width: '18px',
+        height: '18px',
+      },
+    },
+    MuiFormHelperText: {
+      root: {
+        color: colors.primary,
+        fontSize: '12px',
+      }
+    }
     //   MuiFormLabel: {
     //     root: {
     //       fontSize: fontSize.large,
