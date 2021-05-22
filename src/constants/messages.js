@@ -9,6 +9,9 @@ const messages = {
     createDogButtonText: 'Create dog',
     editDogButtonText: 'Update dog',
     editDogTitle: 'Update dog',
+    confirmDelete: 'Do yo really want to delete this dog breed?',
+    delete: 'Confirm',
+    cancel: 'Cancel',
 }
 
 export default messages;

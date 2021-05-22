@@ -50,6 +50,23 @@ class DogsApi {
     });
   };
 
+  deleteDogBreed = (breedId) => {
+    const pathTplt = new URITemplate(
+        this._config.endpoints.dogBreed
+    );
+    const endpoint = new URI(this._config.baseUrl).path(
+        pathTplt.expand({
+          id: breedId,
+        })
+    );
+
+    return axios({
+      url: endpoint.valueOf(),
+      method: HTTP_METHODS.DELETE,
+      headers: Object.assign({}, this._config.defaultHeaders),
+    });
+  }
+
   getDogColors = () => {
     const endpoint = new URI(this._config.baseUrl)
       .path(this._config.endpoints.colors)

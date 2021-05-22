@@ -2,6 +2,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import {makeStyles} from "@material-ui/core/styles";
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {
     Avatar,
     Button,
@@ -9,7 +10,7 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    Grid,
+    Grid, IconButton,
     Typography
 } from "@material-ui/core";
 import React, {useState} from "react";
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function DogCard({ dog, index, openDetails}) {
+function DogCard({ dog, index, openDetails, onDelete }) {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
@@ -70,6 +71,9 @@ function DogCard({ dog, index, openDetails}) {
                     <Button size="small" color="primary" onClick={() => openDetails(dog)}>
                         Edit
                     </Button>
+                    <IconButton onClick={() => onDelete(dog)}>
+                        <DeleteForeverIcon style={{ marginRight: '5px', color: 'primary', fontSize: '24px' }}/>
+                    </IconButton>
                 </CardActions>
             </Card>
             <DogDetails onClose={() => setOpen(false)} open={open} dog={dog} />
@@ -81,6 +85,7 @@ DogCard.propTypes = {
     dog: ImmutablePropTypes.map.isRequired,
     index: PropTypes.number.isRequired,
     openDetails: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
 }
 
 export default DogCard;

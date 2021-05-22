@@ -78,7 +78,7 @@ function AddDogDialog({
     setCountry(1);
     setIsValid(false);
     setSelectedColors([]);
-    setSelectedColors([]);
+    setSelectedNatures([]);
     setValidationErrors({});
     setDogData(DEFAULT_DOG_BREED_STATE);
   }

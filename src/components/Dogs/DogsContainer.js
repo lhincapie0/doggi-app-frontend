@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import DogCard from "./DogCard";
 import AddDogDialog from "./AddDogDialog";
 import ImmutablePropTypes from "react-immutable-proptypes";
+import ConfirmDeleteDogDialog from "./ConfirmDeleteDogDialog";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -48,9 +49,11 @@ export default function DogsContainer({
   openDialog,
   createDogBreed,
   editDogBreed,
+  deleteDogBreed,
 }) {
   const classes = useStyles();
   const [currentDogBreedDetails, setCurrentDogBreedDetails] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const dogs = dogsData.get("dogs");
 
   function openDogDetails(dog) {
@@ -58,17 +61,31 @@ export default function DogsContainer({
     openDialog();
   }
 
+  function closeDeleteDialog() {
+    setCurrentDogBreedDetails(null);
+    setDeleteDialogOpen(false);
+  }
+
+  function handleDeleteDogBreed() {
+    deleteDogBreed(currentDogBreedDetails.get('id'));
+    closeDeleteDialog();
+  }
+
   useEffect(() => {
-    // const { fetchDogBreeds, fetchCountries } = props;
     fetchDogBreeds();
     fetchCountries();
   }, []);
+
 
   const dogCards = dogs.map((dog, index) => (
     <DogCard
       key={`${dog.get("name")}-${dog.get("id")}-card`}
       index={index}
       dog={dog}
+      onDelete={(dog) => {
+        setCurrentDogBreedDetails(dog);
+        setDeleteDialogOpen(true)
+      }}
       openDetails={openDogDetails}
     />
   ));
@@ -99,6 +116,7 @@ export default function DogsContainer({
         breed={currentDogBreedDetails}
         editDogBreed={editDogBreed}
       />
+      <ConfirmDeleteDogDialog onConfirm={handleDeleteDogBreed} onClose={closeDeleteDialog} open={deleteDialogOpen} />
     </div>
   );
 }
@@ -113,4 +131,5 @@ DogsContainer.propTypes = {
   countriesData: ImmutablePropTypes.map.isRequired,
   createDogBreed: PropTypes.func.isRequired,
   editDogBreed: PropTypes.func.isRequired,
+  deleteDogBreed: PropTypes.func.isRequired,
 };
