@@ -56,3 +56,19 @@ export function createDogBreed(dogBreedData) {
     }
   };
 }
+
+
+export function editDogBreed(dogBreedData, breedId) {
+  return async (dispatch) => {
+    dispatch(toggleDogsLoading());
+
+    try {
+      const dogResponse = await dogsApi.putDogBreed(dogBreedData, breedId)
+      console.log(dogResponse);
+      dispatch(fetchDogBreeds(false));
+    } catch(error) {
+      console.log("error", error);
+      dispatch(toggleDogsLoading());
+    }
+  }
+}

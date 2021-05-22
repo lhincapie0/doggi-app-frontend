@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import DogsContainer from "./DogsContainer";
-import { fetchDogBreeds, createDogBreed, fetchCountries } from "../../actions";
+import { fetchDogBreeds, createDogBreed, fetchCountries, editDogBreed } from "../../actions";
 
 function mapStateToProps(state, props) {
     return {
@@ -16,6 +16,7 @@ function mapDispatchToProps(dispatch) {
             fetchDogBreeds,
             createDogBreed,
             fetchCountries,
+            editDogBreed,
         },
         dispatch);
 }

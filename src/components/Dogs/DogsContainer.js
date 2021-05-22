@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Box, CircularProgress, Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DogCard from "./DogCard";
@@ -45,12 +45,18 @@ export default function DogsContainer({
   fetchDogBreeds,
   fetchCountries,
   countriesData,
+  openDialog,
   createDogBreed,
+  editDogBreed,
 }) {
   const classes = useStyles();
-
-  // const { dogsData } = props;
+  const [currentDogBreedDetails, setCurrentDogBreedDetails] = useState(null);
   const dogs = dogsData.get("dogs");
+
+  function openDogDetails(dog) {
+    setCurrentDogBreedDetails(dog);
+    openDialog();
+  }
 
   useEffect(() => {
     // const { fetchDogBreeds, fetchCountries } = props;
@@ -59,8 +65,18 @@ export default function DogsContainer({
   }, []);
 
   const dogCards = dogs.map((dog, index) => (
-    <DogCard key={`${dog.get("name")}-${dog.get('id')}-card`} index={index} dog={dog} />
+    <DogCard
+      key={`${dog.get("name")}-${dog.get("id")}-card`}
+      index={index}
+      dog={dog}
+      openDetails={openDogDetails}
+    />
   ));
+
+  function onClose() {
+    setCurrentDogBreedDetails(null);
+    onCloseAddDialog();
+  }
 
   return (
     <div>
@@ -70,28 +86,31 @@ export default function DogsContainer({
         </Box>
       )}
       <Container className={classes.cardGrid} maxWidth="md">
-        {/* End hero unit */}
         <Grid container spacing={4}>
           {dogCards}
         </Grid>
       </Container>
       <AddDogDialog
         countriesData={countriesData}
-        onClose={onCloseAddDialog}
+        onClose={onClose}
         open={addDialogOpen}
         dogsData={dogsData}
         createDogBreed={createDogBreed}
+        breed={currentDogBreedDetails}
+        editDogBreed={editDogBreed}
       />
     </div>
   );
 }
 
 DogsContainer.propTypes = {
-    dogsData: ImmutablePropTypes.map.isRequired,
-    addDialogOpen: PropTypes.bool.isRequired,
-    onCloseAddDialog: PropTypes.func.isRequired,
-    fetchDogBreeds: PropTypes.func.isRequired,
-    fetchCountries: PropTypes.func.isRequired,
-    countriesData: ImmutablePropTypes.map.isRequired,
-    createDogBreed: PropTypes.func.isRequired,
-}
+  dogsData: ImmutablePropTypes.map.isRequired,
+  openDialog: PropTypes.func.isRequired,
+  addDialogOpen: PropTypes.bool.isRequired,
+  onCloseAddDialog: PropTypes.func.isRequired,
+  fetchDogBreeds: PropTypes.func.isRequired,
+  fetchCountries: PropTypes.func.isRequired,
+  countriesData: ImmutablePropTypes.map.isRequired,
+  createDogBreed: PropTypes.func.isRequired,
+  editDogBreed: PropTypes.func.isRequired,
+};

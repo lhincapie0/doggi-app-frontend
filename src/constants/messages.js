@@ -7,6 +7,8 @@ const messages = {
     colorsTitle: 'Colors',
     naturesTitle: 'Natures',
     createDogButtonText: 'Create dog',
+    editDogButtonText: 'Update dog',
+    editDogTitle: 'Update dog',
 }
 
 export default messages;

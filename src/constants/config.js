@@ -7,6 +7,7 @@ export const config = {
     backendVersion: '/api/v1.0',
     endpoints: {
         dogBreeds: `${BACKEND_VERSION}/dogbreeds/`,
+        dogBreed: `${BACKEND_VERSION}/dogbreeds/{id}`,
         colors: `${BACKEND_VERSION}/colors/`,
         natures: `${BACKEND_VERSION}/natures/`,
         countries: `${BACKEND_VERSION}/countries/`,

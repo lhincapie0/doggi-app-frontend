@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function DogCard({ dog, index}) {
+function DogCard({ dog, index, openDetails}) {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
@@ -67,7 +67,7 @@ function DogCard({ dog, index}) {
                         <VisibilityIcon style={{ marginRight: '5px' }}/>
                         View details
                     </Button>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={() => openDetails(dog)}>
                         Edit
                     </Button>
                 </CardActions>
@@ -80,6 +80,7 @@ function DogCard({ dog, index}) {
 DogCard.propTypes = {
     dog: ImmutablePropTypes.map.isRequired,
     index: PropTypes.number.isRequired,
+    openDetails: PropTypes.func.isRequired,
 }
 
 export default DogCard;

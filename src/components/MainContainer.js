@@ -77,7 +77,7 @@ export default function MainContainer() {
           className={classes.dogsContainer}
           maxWidth={"xl"}
         >
-          <DogsContainer addDialogOpen={addDialogOpen} onCloseAddDialog={() => setAddDialogOpen(false)}/>
+          <DogsContainer openDialog={() => setAddDialogOpen(true)} addDialogOpen={addDialogOpen} onCloseAddDialog={() => setAddDialogOpen(false)}/>
         </Grid>
       </main>
       <footer className={classes.footer}>

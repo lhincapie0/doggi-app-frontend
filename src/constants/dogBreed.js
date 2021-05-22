@@ -44,3 +44,8 @@ export const DEFAULT_DOG_BREED_STATE = {
   lifeExpectancy: 0,
   height: 0,
 }
+
+export const MODE_TYPE = {
+  CREATE: 1,
+  EDIT: 2,
+}

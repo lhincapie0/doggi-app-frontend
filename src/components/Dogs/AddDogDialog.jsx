@@ -23,6 +23,7 @@ import {
   DOG_BREED_FIELDS,
   DEFAULT_DOG_BREED_STATE,
   DOG_BREED_FIELDS_KEYS,
+  MODE_TYPE,
 } from "../../constants/dogBreed";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import DeleteIcon from "@material-ui/icons/Cancel";
@@ -34,6 +35,7 @@ function AddDogDialog({
   countriesData,
   dogsData,
   breed,
+  editDogBreed,
 }) {
   const [isValid, setIsValid] = useState(false);
   const [country, setCountry] = useState(1);
@@ -41,15 +43,38 @@ function AddDogDialog({
   const [selectedNatures, setSelectedNatures] = useState([]);
   const [dogData, setDogData] = useState(DEFAULT_DOG_BREED_STATE);
   const [validationErrors, setValidationErrors] = useState({});
+  const [mode, setMode] = useState(MODE_TYPE.CREATE);
   const prevOpen = usePrevious(open);
 
+  function readValues(breed) {
+    const breedData = breed.toJS();
+    setMode(MODE_TYPE.EDIT);
+
+    setDogData({
+      name: breedData.name,
+      lifeExpectancy: breedData.lifeExpectancy,
+      height: breedData.height,
+      weight: breedData.weight,
+    });
+    setSelectedColors(breedData.dogBreedColors);
+    setSelectedNatures(breedData.dogBreedNatures);
+    setCountry(
+      countriesData
+        .get("countries")
+        .find((item) => item.get("name") === breedData.country)
+        ?.get("id")
+    );
+  }
+
   useEffect(() => {
-    if (open && !prevOpen && !breed) {
-      resetState();
+    if (open && !prevOpen) {
+      if (!breed) resetState();
+      else readValues(breed);
     }
   }, [open]);
 
   function resetState() {
+    setMode(MODE_TYPE.CREATE);
     setCountry(1);
     setIsValid(false);
     setSelectedColors([]);
@@ -79,6 +104,7 @@ function AddDogDialog({
     setValidationErrors({ ...validationErrors, ...{ country: error } });
     setCountry(event.target.value);
   }
+
   const countriesOptions = countriesData.get("countries")?.map((country) => (
     <MenuItem value={country.get("id")} key={country.get("id")}>
       {" "}
@@ -126,7 +152,8 @@ function AddDogDialog({
       },
     };
 
-    createDogBreed(dogBreedData);
+    if (mode === MODE_TYPE.CREATE) createDogBreed(dogBreedData);
+    else editDogBreed(dogBreedData, breed.get("id"));
     onClose();
   }
 
@@ -172,8 +199,8 @@ function AddDogDialog({
     const value = event.target.value;
     const newState = { ...dogData, ...{ height: value } };
     const error = validateFields(
-        DOG_BREED_FIELDS_KEYS.height,
-        event.target.value
+      DOG_BREED_FIELDS_KEYS.height,
+      event.target.value
     );
     setValidationErrors({ ...validationErrors, ...{ height: error } });
     setDogData(newState);
@@ -184,8 +211,8 @@ function AddDogDialog({
     const value = event.target.value;
     const newState = { ...dogData, ...{ lifeExpectancy: value } };
     const error = validateFields(
-        DOG_BREED_FIELDS_KEYS.lifeExpectancy,
-        event.target.value
+      DOG_BREED_FIELDS_KEYS.lifeExpectancy,
+      event.target.value
     );
     setValidationErrors({ ...validationErrors, ...{ lifeExpectancy: error } });
     setDogData(newState);
@@ -208,7 +235,11 @@ function AddDogDialog({
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth>
-      <DialogTitle>{messages.addDogTitle}</DialogTitle>
+      <DialogTitle>
+        {mode === MODE_TYPE.CREATE
+          ? messages.addDogTitle
+          : messages.editDogTitle}
+      </DialogTitle>
       <DialogContent>
         <Box style={{ marginBottom: "30px" }}>
           <TextField
@@ -320,7 +351,9 @@ function AddDogDialog({
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={handleOnCreate} disabled={!isValid}>
-          {messages.createDogButtonText}
+          {mode === MODE_TYPE.CREATE
+            ? messages.createDogButtonText
+            : messages.editDogButtonText}
         </Button>
       </DialogActions>
     </Dialog>
@@ -334,6 +367,7 @@ AddDogDialog.propTypes = {
   countriesData: ImmutablePropTypes.map.isRequired,
   dogsData: ImmutablePropTypes.map.isRequired,
   breed: ImmutablePropTypes.map,
+  editDogBreed: PropTypes.func.isRequired,
 };
 
 export default AddDogDialog;
