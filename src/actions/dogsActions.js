@@ -57,18 +57,31 @@ export function createDogBreed(dogBreedData) {
   };
 }
 
-
 export function editDogBreed(dogBreedData, breedId) {
   return async (dispatch) => {
     dispatch(toggleDogsLoading());
 
     try {
-      const dogResponse = await dogsApi.putDogBreed(dogBreedData, breedId)
+      const dogResponse = await dogsApi.putDogBreed(dogBreedData, breedId);
       console.log(dogResponse);
       dispatch(fetchDogBreeds(false));
-    } catch(error) {
+    } catch (error) {
       console.log("error", error);
       dispatch(toggleDogsLoading());
     }
-  }
+  };
+}
+
+export function deleteDogBreed(breedId) {
+  return async (dispatch) => {
+    dispatch(toggleDogsLoading());
+    try {
+      const dogResponse = await dogsApi.deleteDogBreed(breedId);
+      console.log(dogResponse);
+      dispatch(fetchDogBreeds(false));
+    } catch (error) {
+      console.log("error", error);
+      dispatch(toggleDogsLoading());
+    }
+  };
 }

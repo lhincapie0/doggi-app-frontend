@@ -78,7 +78,7 @@ function AddDogDialog({
     setCountry(1);
     setIsValid(false);
     setSelectedColors([]);
-    setSelectedColors([]);
+    setSelectedNatures([]);
     setValidationErrors({});
     setDogData(DEFAULT_DOG_BREED_STATE);
   }
@@ -93,7 +93,9 @@ function AddDogDialog({
       }
       return isValid;
     }, true);
-    setIsValid(validForm);
+
+    const minValidLengths = selectedNatures.length > 0 && selectedColors.length > 0;
+    setIsValid(validForm && minValidLengths);
   }
 
   function onCountrySelected(event) {
