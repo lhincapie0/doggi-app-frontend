@@ -93,7 +93,9 @@ function AddDogDialog({
       }
       return isValid;
     }, true);
-    setIsValid(validForm);
+
+    const minValidLengths = selectedNatures.length > 0 && selectedColors.length > 0;
+    setIsValid(validForm && minValidLengths);
   }
 
   function onCountrySelected(event) {
