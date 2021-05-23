@@ -237,7 +237,7 @@ function AddDogDialog({
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth>
-      <DialogTitle>
+      <DialogTitle data-testid={"e2e-create-update-dialog-title"}>
         {mode === MODE_TYPE.CREATE
           ? messages.addDogTitle
           : messages.editDogTitle}
@@ -248,6 +248,9 @@ function AddDogDialog({
             fullWidth
             autoFocus
             type={"text"}
+            inputProps={{
+              "data-testid": "e2e-breed-dog-name-input",
+            }}
             label={DOG_BREED_FIELDS.name}
             value={dogData.name}
             onChange={(event) => onNameChange(event)}
@@ -260,6 +263,9 @@ function AddDogDialog({
           <TextField
             fullWidth
             autoFocus
+            inputProps={{
+              "data-testid": "e2e-breed-dog-weight-input",
+            }}
             type={"number"}
             label={DOG_BREED_FIELDS.weight}
             value={dogData.weight}
@@ -274,6 +280,9 @@ function AddDogDialog({
             fullWidth
             autoFocus
             type={"number"}
+            inputProps={{
+              "data-testid": "e2e-breed-dog-height-input",
+            }}
             label={DOG_BREED_FIELDS.height}
             value={dogData.height}
             onChange={(event) => onHeightChange(event)}
@@ -300,6 +309,7 @@ function AddDogDialog({
           />
         </Box>
         <Select
+          data-testid={'e2e-dog-breed-country-select'}
           labelId="type-select-placeholder"
           fullWidth
           value={country}
@@ -321,11 +331,11 @@ function AddDogDialog({
         >
           {countriesOptions}
         </Select>
-        <Box>
-          <Box style={{ marginTop: "10px" }}>{colorsChips}</Box>
+        <Box style={{ marginTop: '10px' }}>
           <Autocomplete
             multiple
             onChange={onColorSelected}
+            data-testid={'e2e-dog-breed-colors-autocomplete'}
             value={selectedColors}
             renderInput={(params) => (
               <TextField {...params} label={messages.colorsTitle} />
@@ -334,11 +344,12 @@ function AddDogDialog({
             options={colorOptions}
             getOptionLabel={(option) => option.name}
           />
+          <Box style={{ marginTop: "10px" }}>{colorsChips}</Box>
         </Box>
         <Box>
-          <Box style={{ marginTop: "10px" }}>{naturesChips}</Box>
           <Autocomplete
             multiple
+            data-testid={'e2e-dog-breed-nature-autocomplete'}
             onChange={onNaturesSelected}
             value={selectedNatures}
             renderInput={(params) => (
@@ -348,11 +359,17 @@ function AddDogDialog({
             options={natureOptions}
             getOptionLabel={(option) => option.name}
           />
+          <Box style={{ marginTop: "10px" }}>{naturesChips}</Box>
+
         </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleOnCreate} disabled={!isValid}>
+        <Button
+          onClick={handleOnCreate}
+          disabled={!isValid}
+          data-testid={"e2e-create-update-dialog-button"}
+        >
           {mode === MODE_TYPE.CREATE
             ? messages.createDogButtonText
             : messages.editDogButtonText}
