@@ -146,3 +146,162 @@ describe("Success cases, Edit Dialog Form", () => {
   });
 
 });
+
+// Same validations as in add dialog mode
+describe('Error cases - validations, edit dialog from', () => {
+  test("Should show error message when name is removed", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const nameInput = screen.getByTestId("e2e-breed-dog-name-input");
+
+    expect(nameInput).toHaveValue(dogMockData.name);
+    userEvent.clear(nameInput);
+    const errorNameText = screen.getByText(
+        "name is mandatory and can not be empty"
+    );
+    expect(errorNameText).toBeInTheDocument();
+
+    userEvent.type(nameInput, dogMockData.name);
+    expect(errorNameText).not.toBeInTheDocument();
+  });
+
+  test("Should show error message when weight is less than 1", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const weigtInput = screen.getByTestId("e2e-breed-dog-weight-input");
+
+    expect(weigtInput).toHaveValue(dogMockData.weight);
+    userEvent.clear(weigtInput);
+    userEvent.type(weigtInput, '-30');
+    const errorWeightText = screen.getByText(
+        "weight field is mandatory and should and greater than 1"
+    );
+    expect(errorWeightText).toBeInTheDocument();
+
+    userEvent.clear(weigtInput);
+    userEvent.type(weigtInput, `${dogMockData.weight}`);
+    expect(errorWeightText).not.toBeInTheDocument();
+  });
+
+  test("Should show error message when weight is removed", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const weigtInput = screen.getByTestId("e2e-breed-dog-weight-input");
+
+    expect(weigtInput).toHaveValue(dogMockData.weight);
+    userEvent.clear(weigtInput);
+    const errorWeightText = screen.getByText(
+        "weight field is mandatory and should and greater than 1"
+    );
+    expect(errorWeightText).toBeInTheDocument();
+
+    userEvent.type(weigtInput, `${dogMockData.weight}`);
+    expect(errorWeightText).not.toBeInTheDocument();
+  });
+
+  test("Should show error message when height is less than 30", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const heightInput = screen.getByTestId("e2e-breed-dog-height-input");
+
+    expect(heightInput).toHaveValue(dogMockData.height);
+    userEvent.clear(heightInput);
+    userEvent.type(heightInput, '-29');
+    const errorHeightText = screen.getByText(
+        "height field is mandatory and should and greater than 30"
+    );
+    expect(errorHeightText).toBeInTheDocument();
+
+    userEvent.clear(heightInput);
+    userEvent.type(heightInput, `${dogMockData.height}`);
+    expect(errorHeightText).not.toBeInTheDocument();
+  });
+
+  test("Should show error message when height is removed", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const heightInput = screen.getByTestId("e2e-breed-dog-height-input");
+
+    expect(heightInput).toHaveValue(dogMockData.height);
+    userEvent.clear(heightInput);
+    const errorHeightText = screen.getByText(
+        "height field is mandatory and should and greater than 30"
+    );
+    expect(errorHeightText).toBeInTheDocument();
+
+    userEvent.type(heightInput, `${dogMockData.height}`);
+    expect(errorHeightText).not.toBeInTheDocument();
+  });
+
+  test("Should show error message when life expectancy is removed", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const lifeExpectancyInput = screen.getByTestId("e2e-breed-dog-life-expectancy-input");
+
+    expect(lifeExpectancyInput).toHaveValue(dogMockData.lifeExpectancy);
+    userEvent.clear(lifeExpectancyInput);
+    const erroLifeExpectancyText = screen.getByText(
+        "lifeExpectancy field is mandatory and should and greater than 1"
+    );
+    expect(erroLifeExpectancyText).toBeInTheDocument();
+
+    userEvent.type(lifeExpectancyInput, `${dogMockData.lifeExpectancy}`);
+    expect(erroLifeExpectancyText).not.toBeInTheDocument();
+  });
+
+  test("Should show error message when life expectancy is less than 1", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const lifeExpectancyInput = screen.getByTestId("e2e-breed-dog-life-expectancy-input");
+
+    expect(lifeExpectancyInput).toHaveValue(dogMockData.lifeExpectancy);
+    userEvent.clear(lifeExpectancyInput);
+    userEvent.type(lifeExpectancyInput, '-10');
+    const erroLifeExpectancyText = screen.getByText(
+        "lifeExpectancy field is mandatory and should and greater than 1"
+    );
+    expect(erroLifeExpectancyText).toBeInTheDocument();
+
+    userEvent.clear(lifeExpectancyInput);
+    userEvent.type(lifeExpectancyInput, `${dogMockData.lifeExpectancy}`);
+    expect(erroLifeExpectancyText).not.toBeInTheDocument();
+  });
+
+  test("Should show error message when all colors are removed", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const deleteIconButtonBlack = screen.getByTestId('e2e-delete-color-Black');
+    expect(deleteIconButtonBlack).toBeInTheDocument();
+    userEvent.click(deleteIconButtonBlack);
+
+    const deleteIconButtonRed = screen.getByTestId('e2e-delete-color-Red');
+    expect(deleteIconButtonRed).toBeInTheDocument();
+    userEvent.click(deleteIconButtonRed);
+
+    const deleteIconButtonBrindle = screen.getByTestId('e2e-delete-color-Brindle');
+    expect(deleteIconButtonBrindle).toBeInTheDocument();
+    userEvent.click(deleteIconButtonBrindle);
+
+    const dogBreedColorsErrorText = screen.getByText('dogBreedColors field is mandatory and should have at least one element');
+    expect(dogBreedColorsErrorText).toBeInTheDocument();
+  })
+
+  test("Should show error message when all natures are removed", () => {
+    renderAddDialogForm(fromJS(dogMockData));
+
+    const deleteIconButtonSweetTempered= screen.getByTestId('e2e-delete-nature-sweet-tempered');
+    expect(deleteIconButtonSweetTempered).toBeInTheDocument();
+    userEvent.click(deleteIconButtonSweetTempered);
+
+    const deleteIconButtonTrainable = screen.getByTestId('e2e-delete-nature-Trainable');
+    expect(deleteIconButtonTrainable).toBeInTheDocument();
+    userEvent.click(deleteIconButtonTrainable);
+
+    const deleteIconButtonStubborn = screen.getByTestId('e2e-delete-nature-Stubborn');
+    expect(deleteIconButtonStubborn).toBeInTheDocument();
+    userEvent.click(deleteIconButtonStubborn);
+
+    const dogBreedNaturesErrorText = screen.getByText('dogBreedNatures field is mandatory and should have at least one element');
+    expect(dogBreedNaturesErrorText).toBeInTheDocument();
+  })
+})
