@@ -71,6 +71,7 @@ function AddDogDialog({
       if (!breed) resetState();
       else readValues(breed);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   function resetState() {
