@@ -8,20 +8,20 @@ function DogDetails({ dog, open, onClose}) {
     return (
         <Dialog open={open} maxWidth="sm" fullWidth>
             <DialogTitle>
-                {'Breed details'}
+                {'Breed main details'}
             </DialogTitle>
             <DialogContent>
                 <Typography style={{ fontWeight: '500' }}>
-                    {`Name: ${dog.get('name')}`}
+                    {`Name: ${dog.get('name') ? dog.get('name') : 'Name was not defined'}`}
                 </Typography>
                 <Typography>
-                    {`Width: ${dog.get('width')}`}
+                    {`Weight: ${dog.get('weight') ? dog.get('weight') : 'Weight was not defined'}`}
                 </Typography>
                 <Typography>
-                    {`Height: ${dog.get('height')}`}
+                    {`Height: ${dog.get('height') ? dog.get('height') : 'Height was not defined'}`}
                 </Typography>
                 <Typography>
-                    {`Life expectancy: ${dog.get('Life expectancy')}`}
+                    {`Life expectancy: ${dog.get('lifeExpectancy') ? dog.get('lifeExpectancy') : 'Life expectancy defined'}`}
                 </Typography>
             </DialogContent>
             <DialogActions>
