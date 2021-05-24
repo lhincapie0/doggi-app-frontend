@@ -83,7 +83,7 @@ function AddDogDialog({
     setDogData(DEFAULT_DOG_BREED_STATE);
   }
 
-  function isValidForm(newState) {
+  function isValidForm(newState, colors, natures) {
     const validForm = ADD_DOG_VALIDATION_RULES.reduce((isValid, rule) => {
       if (isValid) {
         const value = newState[rule.field];
@@ -94,7 +94,8 @@ function AddDogDialog({
       return isValid;
     }, true);
 
-    const minValidLengths = selectedNatures.length > 0 && selectedColors.length > 0;
+    const minValidLengths = colors.length > 0 && natures.length > 0;
+
     setIsValid(validForm && minValidLengths);
   }
 
@@ -116,10 +117,16 @@ function AddDogDialog({
 
   function onColorSelected(e, colors) {
     setSelectedColors(colors);
+    const error = validateFields(DOG_BREED_FIELDS_KEYS.dogBreedColors, colors);
+    setValidationErrors({ ...validationErrors, ...{ dogBreedColors: error } });
+    isValidForm(dogData, colors, selectedNatures);
   }
 
   function onNaturesSelected(e, natures) {
     setSelectedNatures(natures);
+    const error = validateFields(DOG_BREED_FIELDS_KEYS.dogBreedNatures, natures);
+    setValidationErrors({ ...validationErrors, ...{ dogBreedNatures: error } });
+    isValidForm(dogData, selectedColors, natures);
   }
 
   const selectedColorIds = selectedColors.map((selected) => selected.id);
@@ -163,12 +170,22 @@ function AddDogDialog({
     <Chip
       label={color.name}
       key={color.id}
-      deleteIcon={<DeleteIcon />}
-      onDelete={() =>
-        setSelectedColors(
-          selectedColors.filter((colorItem) => colorItem.id !== color.id)
-        )
-      }
+      deleteIcon={<DeleteIcon data-testid={`e2e-delete-color-${color.name}`} />}
+      onDelete={() => {
+        const colorsUpdated = selectedColors.filter(
+          (colorItem) => colorItem.id !== color.id
+        );
+        const error = validateFields(
+          DOG_BREED_FIELDS_KEYS.dogBreedColors,
+          colorsUpdated
+        );
+        setValidationErrors({
+          ...validationErrors,
+          ...{ dogBreedColors: error },
+        });
+        setSelectedColors(colorsUpdated);
+      }}
+      data-testid={`e2e-color-chip-${color.name}`}
       data-tag-index={index}
     />
   ));
@@ -182,7 +199,7 @@ function AddDogDialog({
     );
     setValidationErrors({ ...validationErrors, ...{ name: error } });
     setDogData(newState);
-    isValidForm(newState);
+    isValidForm(newState, selectedColors, selectedNatures);
   }
 
   function onWeightChange(event) {
@@ -194,7 +211,7 @@ function AddDogDialog({
       event.target.value
     );
     setValidationErrors({ ...validationErrors, ...{ weight: error } });
-    isValidForm(newState);
+    isValidForm(newState, selectedColors, selectedNatures);
   }
 
   function onHeightChange(event) {
@@ -206,7 +223,7 @@ function AddDogDialog({
     );
     setValidationErrors({ ...validationErrors, ...{ height: error } });
     setDogData(newState);
-    isValidForm(newState);
+    isValidForm(newState, selectedColors, selectedNatures);
   }
 
   function onLifeExpectancyChange(event) {
@@ -218,19 +235,29 @@ function AddDogDialog({
     );
     setValidationErrors({ ...validationErrors, ...{ lifeExpectancy: error } });
     setDogData(newState);
-    isValidForm(newState);
+    isValidForm(newState, selectedColors, selectedNatures);
   }
 
   const naturesChips = selectedNatures.map((nature, index) => (
     <Chip
       label={nature.name}
       key={nature.id}
-      deleteIcon={<DeleteIcon />}
-      onDelete={() =>
-        setSelectedNatures(
-          selectedNatures.filter((natureItem) => natureItem.id !== nature.id)
-        )
-      }
+      deleteIcon={<DeleteIcon data-testid={`e2e-delete-nature-${nature.name}`} />}
+      onDelete={() => {
+        const naturesUpdated = selectedNatures.filter(
+          (natureItem) => natureItem.id !== nature.id
+        );
+        const error = validateFields(
+          DOG_BREED_FIELDS_KEYS.dogBreedNatures,
+          naturesUpdated
+        );
+        setValidationErrors({
+          ...validationErrors,
+          ...{ dogBreedNatures: error },
+        });
+        setSelectedNatures(naturesUpdated);
+      }}
+      data-testid={`e2e-nature-chip-${nature.name}`}
       data-tag-index={index}
     />
   ));
@@ -296,23 +323,26 @@ function AddDogDialog({
             fullWidth
             autoFocus
             type={"number"}
-            label={DOG_BREED_FIELDS.lifeExpectancy}
-            value={dogData.lifeExpectancy}
             inputProps={{
+              "data-testid": "e2e-breed-dog-life-expectancy-input",
               min: 1,
               max: 100,
             }}
+            label={DOG_BREED_FIELDS.lifeExpectancy}
+            value={dogData.lifeExpectancy}
+            onChange={(event) => onLifeExpectancyChange(event)}
             errors={validationErrors[DOG_BREED_FIELDS_KEYS.lifeExpectancy]}
             helperText={validationErrors[DOG_BREED_FIELDS_KEYS.lifeExpectancy]}
-            onChange={(event) => onLifeExpectancyChange(event)}
             data-testid={"e2e-add-dialog-life-expectancy-field"}
           />
         </Box>
         <Select
-          data-testid={'e2e-dog-breed-country-select'}
+          data-testid={"e2e-dog-breed-country-select"}
           labelId="type-select-placeholder"
           fullWidth
           value={country}
+          inputProps={{ "data-testid": "e2e-select-country-input" }}
+          SelectDisplayProps={{ "data-testid": "e2e-select-country-button" }}
           onChange={onCountrySelected}
           MenuProps={{
             anchorOrigin: {
@@ -325,20 +355,27 @@ function AddDogDialog({
             },
             getContentAnchorEl: null,
             MenuListProps: {
-              id: "e2e-integrator-client-type",
+              id: "e2e-dog-breed-select-country-item",
             },
           }}
         >
           {countriesOptions}
         </Select>
-        <Box style={{ marginTop: '10px' }}>
+        <Box style={{ marginTop: "10px" }}>
           <Autocomplete
             multiple
             onChange={onColorSelected}
-            data-testid={'e2e-dog-breed-colors-autocomplete'}
+            data-testid={"e2e-dog-breed-colors-autocomplete"}
             value={selectedColors}
             renderInput={(params) => (
-              <TextField {...params} label={messages.colorsTitle} />
+              <TextField
+                error={!!validationErrors[DOG_BREED_FIELDS_KEYS.dogBreedColors]}
+                helperText={
+                  validationErrors[DOG_BREED_FIELDS_KEYS.dogBreedColors]
+                }
+                {...params}
+                label={messages.colorsTitle}
+              />
             )}
             renderTags={() => {}}
             options={colorOptions}
@@ -349,18 +386,24 @@ function AddDogDialog({
         <Box>
           <Autocomplete
             multiple
-            data-testid={'e2e-dog-breed-nature-autocomplete'}
+            data-testid={"e2e-dog-breed-nature-autocomplete"}
             onChange={onNaturesSelected}
             value={selectedNatures}
-            renderInput={(params) => (
-              <TextField {...params} label={messages.naturesTitle} />
-            )}
             renderTags={() => {}}
+            renderInput={(params) => (
+              <TextField
+                error={!!validationErrors[DOG_BREED_FIELDS_KEYS.dogBreedNatures]}
+                helperText={
+                  validationErrors[DOG_BREED_FIELDS_KEYS.dogBreedNatures]
+                }
+                {...params}
+                label={messages.naturesTitle}
+              />
+            )}
             options={natureOptions}
             getOptionLabel={(option) => option.name}
           />
           <Box style={{ marginTop: "10px" }}>{naturesChips}</Box>
-
         </Box>
       </DialogContent>
       <DialogActions>
