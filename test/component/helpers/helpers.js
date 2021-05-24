@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import { countriesData, dogsData } from "./mockData";
 import React from "react";
 
-export function renderAddDialogForm() {
+export function renderAddDialogForm(breed = null) {
   render(
     <AddDogDialog
       countriesData={fromJS(countriesData)}
@@ -12,7 +12,7 @@ export function renderAddDialogForm() {
       open={true}
       dogsData={fromJS(dogsData)}
       createDogBreed={jest.fn()}
-      breed={null}
+      breed={breed}
       editDogBreed={jest.fn()}
     />
   );

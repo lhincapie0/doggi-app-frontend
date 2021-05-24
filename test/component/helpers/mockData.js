@@ -6,6 +6,7 @@ export const countriesMockData = [
     { id: 5, name: "Angola" },
     { id: 6, name: "Antigua y Barbuda" },
     { id: 7, name: "Arabia Saudita" },
+    { id: 8, name: "Reino Unido" },
 ];
 
 export const colorsMockData = [
@@ -36,7 +37,7 @@ export const naturesMockData = [
 ];
 
 
-const dogMockData = {
+export const dogMockData = {
     country: "Reino Unido",
     dogBreedColors: [
         { id: 1, name: "Red" },
