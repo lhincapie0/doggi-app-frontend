@@ -7,25 +7,25 @@ function DogDetails({ dog, open, onClose}) {
 
     return (
         <Dialog open={open} maxWidth="sm" fullWidth>
-            <DialogTitle>
+            <DialogTitle data-testid={`e2e-dog-card-title-${dog.get('id')}`}>
                 {'Breed main details'}
             </DialogTitle>
             <DialogContent>
-                <Typography style={{ fontWeight: '500' }}>
+                <Typography style={{ fontWeight: '500' }} data-testid={`e2e-dog-card-name-${dog.get('id')}`}>
                     {`Name: ${dog.get('name') ? dog.get('name') : 'Name was not defined'}`}
                 </Typography>
-                <Typography>
+                <Typography  data-testid={`e2e-dog-card-weight-${dog.get('id')}`}>
                     {`Weight: ${dog.get('weight') ? dog.get('weight') : 'Weight was not defined'}`}
                 </Typography>
-                <Typography>
+                <Typography data-testid={`e2e-dog-card-height-${dog.get('id')}`}>
                     {`Height: ${dog.get('height') ? dog.get('height') : 'Height was not defined'}`}
                 </Typography>
-                <Typography>
-                    {`Life expectancy: ${dog.get('lifeExpectancy') ? dog.get('lifeExpectancy') : 'Life expectancy defined'}`}
+                <Typography data-testid={`e2e-dog-card-life-expectancy-${dog.get('id')}`}>
+                    {`Life expectancy: ${dog.get('lifeExpectancy') ? dog.get('lifeExpectancy') : 'Life expectancy was not defined'}`}
                 </Typography>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>
+                <Button data-testid="e2e-breed-details-close-button" onClick={onClose}>
                     Close
                 </Button>
             </DialogActions>
