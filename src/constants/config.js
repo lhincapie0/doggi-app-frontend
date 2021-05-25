@@ -2,7 +2,7 @@ export const APP_NAME = 'Doggi App';
 const BACKEND_VERSION = '/api/v1.0';
 
 export const config = {
-    baseUrl: 'https://doggi-app-backend.herokuapp.com',
+    baseUrl: process.env.API || 'https://doggi-app-backend.herokuapp.com',
     countriesBaseUrl: 'https://countries-backend-api.herokuapp.com',
     backendVersion: '/api/v1.0',
     endpoints: {

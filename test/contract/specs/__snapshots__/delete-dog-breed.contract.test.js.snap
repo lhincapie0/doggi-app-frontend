@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given a Dog breed service When a request to delete an existing dog breed is made Then it should return the right data 1`] = `
+Object {
+  "country": "Reino Unido",
+  "dogBreedColors": Array [
+    Object {
+      "id": 1,
+      "name": "Red",
+    },
+    Object {
+      "id": 2,
+      "name": "Black",
+    },
+    Object {
+      "id": 3,
+      "name": "Brindle",
+    },
+  ],
+  "dogBreedNatures": Array [
+    Object {
+      "id": 1,
+      "name": "sweet-tempered",
+    },
+    Object {
+      "id": 2,
+      "name": "Trainable",
+    },
+    Object {
+      "id": 3,
+      "name": "Stubborn",
+    },
+  ],
+  "height": 31,
+  "id": 1,
+  "lifeExpectancy": 9,
+  "name": "Beagle",
+  "weight": 35,
+}
+`;
