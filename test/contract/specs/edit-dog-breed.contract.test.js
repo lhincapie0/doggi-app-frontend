@@ -11,28 +11,29 @@ describe("Given a Dog breed service", () => {
     await provider.setup();
   });
 
-  describe("When a request to create a new dog breed is made", () => {
+  describe("When a request to edit an existing dog breed is made", () => {
     beforeAll(async () => {
       console.log("Setting up env for create dog breed test...");
 
       await provider.addInteraction({
-        uponReceiving: "A request to create a new dog breed",
-        state: "create new dog breed",
+        uponReceiving: "A request to edit an existing dog breed",
+        state: "edit existing dog breed",
         withRequest: {
-          method: "POST",
-          path: "/api/v1.0/dogbreeds/",
+          method: "PUT",
+          path: "/api/v1.0/dogbreeds/1",
           body: createDogBreedMock,
         },
         willRespondWith: {
-          status: 201,
+          status: 200,
           body: Matchers.like(dogBreedResponse),
         },
       });
     });
 
     it("Then it should return the right data", async () => {
-      const createDogBreedResponse = await dogsApi.postDogBreed(
-        createDogBreedMock
+      const createDogBreedResponse = await dogsApi.putDogBreed(
+        createDogBreedMock,
+        1
       );
       expect(createDogBreedResponse.data).toMatchSnapshot();
       provider.verify();

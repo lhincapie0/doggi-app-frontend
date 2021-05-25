@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Given a Dog breed service When a request to create a new dog breed is made Then it should return the right data 1`] = `
+exports[`Given a Dog breed service When a request to edit an existing dog breed is made Then it should return the right data 1`] = `
 Object {
   "country": "Reino Unido",
   "dogBreedColors": Array [

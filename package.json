@@ -34,7 +34,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "test:contract": "jest --runInBand -c test/contract/jest.contract.config.js",
-    "test:component": "jest -c test/component/jest.component.config.js"
+    "test:component": "jest -c test/component/jest.component.config.js",
+    "test:publish": "node test/contract/publish.js"
   },
   "eslintConfig": {
     "extends": [

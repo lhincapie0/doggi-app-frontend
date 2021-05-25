@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given a Dog breed service When a request to list dog breeds is made Then it should return the right data 1`] = `
+Array [
+  Object {
+    "country": "United Kingdom",
+    "dogBreedColors": Array [
+      Object {
+        "id": 1,
+        "name": "Red",
+      },
+    ],
+    "dogBreedNatures": Array [
+      Object {
+        "id": 1,
+        "name": "Intelligent",
+      },
+    ],
+    "height": 40,
+    "lifeExpectancy": 10,
+    "name": "Siberian Husky",
+    "weight": 20,
+  },
+]
+`;

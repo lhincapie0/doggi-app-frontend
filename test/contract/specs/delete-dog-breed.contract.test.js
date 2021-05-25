@@ -1,7 +1,7 @@
 import { Matchers } from "@pact-foundation/pact";
 import { getProvider } from "./init-pact";
 import dogsApi from "../../../src/client/DogsApi";
-import { createDogBreedMock, dogBreedResponse } from "../helpers/mockData";
+import {createDogBreedMock, dogBreedResponse} from "../helpers/mockData";
 
 const provider = getProvider();
 
@@ -11,31 +11,29 @@ describe("Given a Dog breed service", () => {
     await provider.setup();
   });
 
-  describe("When a request to create a new dog breed is made", () => {
+  describe("When a request to delete an existing dog breed is made", () => {
     beforeAll(async () => {
-      console.log("Setting up env for create dog breed test...");
+      console.log("Setting up env for delete dog breed test...");
 
       await provider.addInteraction({
-        uponReceiving: "A request to create a new dog breed",
-        state: "create new dog breed",
+        uponReceiving: "A request to delete a new dog breed",
+        state: "delete existing dog breed",
         withRequest: {
-          method: "POST",
-          path: "/api/v1.0/dogbreeds/",
-          body: createDogBreedMock,
+          method: "DELETE",
+          path: "/api/v1.0/dogbreeds/1",
         },
         willRespondWith: {
-          status: 201,
+          status: 200,
           body: Matchers.like(dogBreedResponse),
         },
       });
     });
 
     it("Then it should return the right data", async () => {
-      const createDogBreedResponse = await dogsApi.postDogBreed(
-        createDogBreedMock
-      );
-      expect(createDogBreedResponse.data).toMatchSnapshot();
-      provider.verify();
+      const deleteDogBreedResponse = await dogsApi.deleteDogBreed(1);
+      expect(deleteDogBreedResponse.data).toMatchSnapshot();
+
+      await provider.verify();
     });
   });
 
