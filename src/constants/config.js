@@ -1,4 +1,4 @@
-﻿export const APP_NAME = 'Doggi App';
+export const APP_NAME = 'Doggi App';
 const BACKEND_VERSION = '/api/v1.0';
 
 export const config = {

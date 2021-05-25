@@ -25,7 +25,7 @@ function validateNumericField(field, value) {
 }
 
 function validateListNotEmpty(field, array) {
-    if (array.length > 1) {
+    if (array.length > 0) {
         return null;
     }
     return `${field} field is mandatory and should have at least one element`;

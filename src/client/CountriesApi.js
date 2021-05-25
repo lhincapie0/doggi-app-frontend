@@ -15,12 +15,6 @@ class CountriesApi {
             method: HTTP_METHODS.GET,
             headers: Object.assign({}, this._config.defaultHeaders),
         });
-
-        return axios({
-            url: endpoint.valueOf(),
-            method: HTTP_METHODS.GET,
-            headers: Object.assign({}, this._config.defaultHeaders),
-        });
     };
 
 }
