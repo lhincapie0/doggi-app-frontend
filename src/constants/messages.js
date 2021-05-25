@@ -12,6 +12,13 @@ const messages = {
     confirmDelete: 'Do yo really want to delete this dog breed?',
     delete: 'Confirm',
     cancel: 'Cancel',
+    dogCard: {
+        viewDetails: 'View Details',
+        edit: 'Edit',
+        lifeExpectancy: 'Life Expectancy',
+        height: 'Height',
+        weight: 'Weight',
+    }
 }
 
 export default messages;

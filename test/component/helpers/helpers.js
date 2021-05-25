@@ -20,11 +20,16 @@ export function renderAddDialogForm(breed = null) {
   );
 }
 
-export function renderDogCardDetail(breed) {
+export function renderDogDialogDetail(breed) {
+  render(<DogDetails open={true} onClose={jest.fn()} dog={fromJS(breed)} />);
+}
+
+export function renderDogCardDetails(breed) {
   render(
-    <DogDetails
-      open={true}
-      onClose={jest.fn()}
+    <DogCard
+      openDetails={jest.fn()}
+      onDelete={jest.fn()}
+      index={breed.id}
       dog={fromJS(breed)}
     />
   );
