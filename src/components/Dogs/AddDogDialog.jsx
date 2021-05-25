@@ -50,6 +50,8 @@ function AddDogDialog({
     const breedData = breed.toJS();
     setMode(MODE_TYPE.EDIT);
 
+    setValidationErrors({});
+
     setDogData({
       name: breedData.name,
       lifeExpectancy: breedData.lifeExpectancy,
@@ -82,6 +84,7 @@ function AddDogDialog({
     setSelectedNatures([]);
     setValidationErrors({});
     setDogData(DEFAULT_DOG_BREED_STATE);
+    setValidationErrors({});
   }
 
   function isValidForm(newState, colors, natures) {
