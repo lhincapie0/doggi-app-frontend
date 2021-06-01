@@ -7,6 +7,87 @@
   },
   "interactions": [
     {
+      "description": "A request to list a new dog breed",
+      "providerState": "list dog breeds",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1.0/dogbreeds/"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": [
+          {
+            "name": "Siberian Husky",
+            "lifeExpectancy": 10,
+            "weight": 20,
+            "height": 40,
+            "country": "United Kingdom",
+            "dogBreedNatures": [
+              {
+                "id": 1,
+                "name": "Intelligent"
+              }
+            ],
+            "dogBreedColors": [
+              {
+                "id": 1,
+                "name": "Red"
+              }
+            ]
+          }
+        ],
+        "matchingRules": {
+          "$.body": {
+            "min": 1
+          },
+          "$.body[*].*": {
+            "match": "type"
+          },
+          "$.body[*].name": {
+            "match": "type"
+          },
+          "$.body[*].lifeExpectancy": {
+            "match": "type"
+          },
+          "$.body[*].weight": {
+            "match": "type"
+          },
+          "$.body[*].height": {
+            "match": "type"
+          },
+          "$.body[*].country": {
+            "match": "type"
+          },
+          "$.body[*].dogBreedNatures": {
+            "min": 1
+          },
+          "$.body[*].dogBreedNatures[*].*": {
+            "match": "type"
+          },
+          "$.body[*].dogBreedNatures[*].id": {
+            "match": "type"
+          },
+          "$.body[*].dogBreedNatures[*].name": {
+            "match": "type"
+          },
+          "$.body[*].dogBreedColors": {
+            "min": 1
+          },
+          "$.body[*].dogBreedColors[*].*": {
+            "match": "type"
+          },
+          "$.body[*].dogBreedColors[*].id": {
+            "match": "type"
+          },
+          "$.body[*].dogBreedColors[*].name": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
       "description": "A request to edit an existing dog breed",
       "providerState": "edit existing dog breed",
       "request": {
@@ -30,6 +111,60 @@
           "name": "Beagle",
           "weight": 35
         }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "country": "Reino Unido",
+          "dogBreedColors": [
+            {
+              "id": 1,
+              "name": "Red"
+            },
+            {
+              "id": 2,
+              "name": "Black"
+            },
+            {
+              "id": 3,
+              "name": "Brindle"
+            }
+          ],
+          "dogBreedNatures": [
+            {
+              "id": 1,
+              "name": "sweet-tempered"
+            },
+            {
+              "id": 2,
+              "name": "Trainable"
+            },
+            {
+              "id": 3,
+              "name": "Stubborn"
+            }
+          ],
+          "height": 31,
+          "lifeExpectancy": 9,
+          "name": "Beagle",
+          "weight": 35,
+          "id": 1
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "A request to delete a new dog breed",
+      "providerState": "delete existing dog breed",
+      "request": {
+        "method": "DELETE",
+        "path": "/api/v1.0/dogbreeds/1"
       },
       "response": {
         "status": 200,
@@ -145,207 +280,6 @@
         },
         "matchingRules": {
           "$.body": {
-            "match": "type"
-          }
-        }
-      }
-    },
-    {
-      "description": "A request to delete a new dog breed",
-      "providerState": "delete existing dog breed",
-      "request": {
-        "method": "DELETE",
-        "path": "/api/v1.0/dogbreeds/1"
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-        },
-        "body": {
-          "country": "Reino Unido",
-          "dogBreedColors": [
-            {
-              "id": 1,
-              "name": "Red"
-            },
-            {
-              "id": 2,
-              "name": "Black"
-            },
-            {
-              "id": 3,
-              "name": "Brindle"
-            }
-          ],
-          "dogBreedNatures": [
-            {
-              "id": 1,
-              "name": "sweet-tempered"
-            },
-            {
-              "id": 2,
-              "name": "Trainable"
-            },
-            {
-              "id": 3,
-              "name": "Stubborn"
-            }
-          ],
-          "height": 31,
-          "lifeExpectancy": 9,
-          "name": "Beagle",
-          "weight": 35,
-          "id": 1
-        },
-        "matchingRules": {
-          "$.body": {
-            "match": "type"
-          }
-        }
-      }
-    },
-    {
-      "description": "A request to list a new dog breed",
-      "providerState": "list dog breeds",
-      "request": {
-        "method": "GET",
-        "path": "/api/v1.0/dogbreeds/"
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-        },
-        "body": [
-          {
-            "name": "Siberian Husky",
-            "lifeExpectancy": 10,
-            "weight": 20,
-            "height": 40,
-            "country": "United Kingdom",
-            "dogBreedNatures": [
-              {
-                "id": 1,
-                "name": "Intelligent"
-              }
-            ],
-            "dogBreedColors": [
-              {
-                "id": 1,
-                "name": "Red"
-              }
-            ]
-          }
-        ],
-        "matchingRules": {
-          "$.body": {
-            "min": 1
-          },
-          "$.body[*].*": {
-            "match": "type"
-          },
-          "$.body[*].name": {
-            "match": "type"
-          },
-          "$.body[*].lifeExpectancy": {
-            "match": "type"
-          },
-          "$.body[*].weight": {
-            "match": "type"
-          },
-          "$.body[*].height": {
-            "match": "type"
-          },
-          "$.body[*].country": {
-            "match": "type"
-          },
-          "$.body[*].dogBreedNatures": {
-            "min": 1
-          },
-          "$.body[*].dogBreedNatures[*].*": {
-            "match": "type"
-          },
-          "$.body[*].dogBreedNatures[*].id": {
-            "match": "type"
-          },
-          "$.body[*].dogBreedNatures[*].name": {
-            "match": "type"
-          },
-          "$.body[*].dogBreedColors": {
-            "min": 1
-          },
-          "$.body[*].dogBreedColors[*].*": {
-            "match": "type"
-          },
-          "$.body[*].dogBreedColors[*].id": {
-            "match": "type"
-          },
-          "$.body[*].dogBreedColors[*].name": {
-            "match": "type"
-          }
-        }
-      }
-    },
-    {
-      "description": "A request to list dog breed natures",
-      "providerState": "list dog breed natures",
-      "request": {
-        "method": "GET",
-        "path": "/api/v1.0/natures/"
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-        },
-        "body": [
-          {
-            "id": 1,
-            "name": "Intelligent"
-          }
-        ],
-        "matchingRules": {
-          "$.body": {
-            "min": 1
-          },
-          "$.body[*].*": {
-            "match": "type"
-          },
-          "$.body[*].id": {
-            "match": "type"
-          },
-          "$.body[*].name": {
-            "match": "type"
-          }
-        }
-      }
-    },
-    {
-      "description": "A request to list dog breed colors",
-      "providerState": "list dog breed colors",
-      "request": {
-        "method": "GET",
-        "path": "/api/v1.0/colors/"
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-        },
-        "body": [
-          {
-            "id": 1,
-            "name": "Red"
-          }
-        ],
-        "matchingRules": {
-          "$.body": {
-            "min": 1
-          },
-          "$.body[*].*": {
-            "match": "type"
-          },
-          "$.body[*].id": {
-            "match": "type"
-          },
-          "$.body[*].name": {
             "match": "type"
           }
         }
