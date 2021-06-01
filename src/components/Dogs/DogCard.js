@@ -48,6 +48,7 @@ function DogCard({ dog, index, openDetails, onDelete }) {
     index % 2 === 0 ? colors.primaryLighten30 : colors.primary;
   return (
     <Grid
+      data-testid={`e2e-dog-master-name-${dog.get("name")}`}
       item
       key={`${dog.get("name")}-${dog.get("id")}`}
       xs={12}
